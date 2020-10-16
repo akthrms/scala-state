@@ -19,5 +19,7 @@ object State {
 
   def put[S](s: S): State[S, Unit] = State { _ => ((), s) }
 
+  def modify[S](fn: S => S): State[S, S] = State { s => (s, fn(s)) }
+
   def pure[S, A](a: A): State[S, A] = State { s => (a, s) }
 }
