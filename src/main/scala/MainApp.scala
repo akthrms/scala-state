@@ -1,5 +1,3 @@
-import State.pure
-
 object MainApp extends App {
 
   import State._
@@ -42,6 +40,8 @@ object MainApp extends App {
 }
 
 case class State[S, A](runState: S => (A, S)) {
+
+  import State._
 
   def flatMap[B](fn: A => State[S, B]): State[S, B] =
     State { s =>
