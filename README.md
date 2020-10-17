@@ -1,3 +1,3 @@
-# Stateモナド（in Scala）
+# Stateモナド in Scala
 
 あまりよくわかってない
