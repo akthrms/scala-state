@@ -18,14 +18,25 @@ object MainApp extends App {
       _ <- put(n :: stack)
     } yield ()
 
-  val stack: State[Stack[Int], Int] =
+  val stack1: State[Stack[Int], Int] =
     for {
       _ <- push(4)
       _ <- push(5)
       a <- pop
     } yield a
 
-  assert(stack.runState(List(3, 2, 1)) == (5, List(4, 3, 2, 1)))
+  assert(stack1.runState(List(3, 2, 1)) == (5, List(4, 3, 2, 1)))
+
+  val stack2: State[Stack[Int], Int] =
+    push(4).flatMap { _ =>
+      push(5).flatMap { _ =>
+        pop.flatMap { a =>
+          pure(a)
+        }
+      }
+    }
+
+  assert(stack2.runState(List(3, 2, 1)) == (5, List(4, 3, 2, 1)))
 }
 
 case class State[S, A](runState: S => (A, S)) {
