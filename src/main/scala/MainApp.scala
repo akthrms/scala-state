@@ -1,3 +1,5 @@
+import State.pure
+
 object MainApp extends App {
 
   import State._
@@ -47,11 +49,7 @@ case class State[S, A](runState: S => (A, S)) {
       fn(result).runState(state)
     }
 
-  def map[B](fn: A => B): State[S, B] =
-    State { s =>
-      val (result, state) = runState(s)
-      State.pure(fn(result)).runState(state)
-    }
+  def map[B](fn: A => B): State[S, B] = flatMap { a => pure(fn(a)) }
 }
 
 object State {
